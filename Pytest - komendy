@@ -1,0 +1,166 @@
+pytest nazwa pliku -v           - bardziej szczegółowe info dot testu
+
+plik najlepiej nazwać test_ .. potem można użyć komendy py.test , py.test -v
+funkcje do testowania też najlepiej nazwać test_...
+
+pytest test_mathfunc.py::test_add - uruchomienie wybranego testu
+
+pytest -v -k '3' - uruchomienie testu z '3' w nazwie
+
+pytest -v -k '3 or cos'
+pytest -v -k '3 and cos'
+
+import pytest @pytest.mark.string   - udekorowanie typ testu
+                @pytest.mark.number
+
+pytest -v -m number - tak można wywołac po nazwie z dekoratora
+
+pytest -v -x pokazuje błąd i zatrzymuje testy
+
+pytest -v -x -tb=no to samo ale mniej info
+
+pytest -v -x --maxfail=2   - max 2 błędy - przejdzie cały test zakonczy po 3 błędzie
+
+
+@pytest.mark.skip(reason="do not run number add test") - taki dekorator spodowuje 
+pominięcie wykonania testu test_add będzie skipped
+
+pytest -v -rsx  - wuświetli zawartosc reason=
+
+@pytest.mark.skipif(sys.version_info > (3, 3), reason="do not run number add test") pominie test jeśli wersja
+pythona jest wieksza niż 3.3 - skipif
+
+
+pytest -v -s   pozwala na wywołanie w termianu printa który jest w testach
+pytest -v --capture=no          - j.w.
+pytest -v -q   - tylko ważne info
+pytest -q - tylko 1 linijak że zdane testy
+
+
+Paramteryzowanie:
+
+@pytest.mark.parametrize('num1, num2, result',
+                         [(7, 3, 10),
+                          ('Hello', " World", "Hello World"),
+                          (1.8, 1.9, 3.7)
+                          ]
+                         )
+
+def test_add(num1, num2, result):
+    assert add(num1, num2) == result
+
+
+def setup_module(module): - na początek testu
+    student = Studnet()
+    student.connect()
+
+def teardown_module(module): - na zakonczenie testu
+    student.close()
+
+
+
+mozna również:
+
+@pytest.fixture(scope = 'module')  setup wystartuje 1x
+def db():
+    db = Student()
+    db.connect()
+    return db
+
+
+
+def test_1(db)
+    assert ..............
+
+
+
+z setup i tear down
+
+@pytest.fixture(scope = 'module')  setup i tear down wystartuje 1x
+def db():
+    print("setup")
+    db = Student()
+    db.connect()
+    yield db
+    print("teardown")
+    db.close()
+
+
+
+def test_1(db)
+    assert ..............
+
+
+
+def setup_function(function): - na początku każdgo testu
+    student = Studnet()
+    student.connect()
+
+
+def setup_cls(cls): - na początku kazdej klasy testów
+    sstudent = Studnet()
+    student.connect()
+
+
+def setup_method(self, method):
+    """ setup any state tied to the execution of the given method in a
+    class.  setup_method is invoked for every test method of a class.
+    """
+
+
+def teardown_method(self, method):
+    """ teardown any state that was previously setup with a setup_method
+    call.
+    """
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
